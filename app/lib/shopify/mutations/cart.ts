@@ -48,7 +48,7 @@ export const updateCartMutation = gql`
   }
 `;
 
-export const removeFromCartMutation = gql`
+export const removeCartLinesMutation = gql`
   mutation RemoveFromCart($cartId: ID!, $lineIds: [ID!]!) {
     cartLinesRemove(cartId: $cartId, lineIds: $lineIds) {
       cart {

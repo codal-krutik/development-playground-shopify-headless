@@ -4,6 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { addToCartAction } from "./actions";
+import QuantitySelector from "./components/QuantitySelector";
+import AddToCartButton from "./components/AddToCartButton";
 
 export default async function Page({
   params,
@@ -115,19 +117,19 @@ export default async function Page({
             </span>
           </div>
 
-          {/* CTA */}
-          <form action={addToCartAction.bind(null, selectedVariant.id)}>
-            <button
-              disabled={!selectedVariant.availableForSale}
-              className={`mt-8 w-full rounded-lg px-6 py-3 text-sm font-medium transition
-                ${
-                  selectedVariant.availableForSale
-                    ? "bg-black text-white hover:bg-gray-800"
-                    : "bg-gray-200 text-gray-500 cursor-not-allowed"
-                }`}
-            >
-              Add to Cart
-            </button>
+          <form
+            action={async (formData: FormData) => {
+              "use server";
+
+              const quantity = Number(formData.get("quantity")) || 1;
+              await addToCartAction(selectedVariant.id, quantity);
+            }}
+          >
+            <div className="mt-6">
+              <QuantitySelector />
+            </div>
+
+            <AddToCartButton disabled={!selectedVariant.availableForSale} />
           </form>
         </div>
       </div>

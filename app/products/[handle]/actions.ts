@@ -4,11 +4,11 @@ import { getCartId, setCartId } from "@/app/lib/utils";
 import { shopifyClient } from "../../lib/shopify/client";
 import { createCartMutation, addToCartMutation } from "../../lib/shopify/mutations/cart";
 
-export async function addToCartAction(variantId: string) {
+export async function addToCartAction(variantId: string, quantity: number = 1) {
   try {
     const line = {
       merchandiseId: variantId,
-      quantity: 1,
+      quantity,
     };
 
     const cartId = await getCartId();

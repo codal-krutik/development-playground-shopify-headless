@@ -3,6 +3,8 @@ import { shopifyClient } from "../lib/shopify/client";
 import { getCartQuery } from "../lib/shopify/queries/cart";
 import Image from "next/image";
 import Link from "next/link";
+import { getNumericId } from "../lib/utils";
+import { removeCartLine } from "../cart/actions";
 
 export default async function Page() {
   const store = await cookies();
@@ -56,6 +58,7 @@ export default async function Page() {
           <div className="space-y-6">
             {items.map(({ node }: any, index: number) => {
               const variant = node.merchandise;
+              const variantId = getNumericId(variant.id);
               const product = variant.product;
               const isLast = index === items.length - 1;
 
@@ -72,7 +75,9 @@ export default async function Page() {
 
                   {/* DETAILS */}
                   <div className="flex-1">
-                    <h2 className="font-medium">{product.title}</h2>
+                    <a href={`products/${product.handle}?variant=${variantId}`} className="h2 font-medium">
+                      {product.title}
+                    </a>
 
                     <p className="text-sm text-gray-500">{variant.title}</p>
 
@@ -81,6 +86,18 @@ export default async function Page() {
                     </p>
 
                     <p className="mt-2 text-sm text-gray-600">Quantity: {node.quantity}</p>
+
+                    {/* REMOVE BUTTON */}
+                    <form
+                      action={async () => {
+                        "use server";
+                        await removeCartLine(node.id);
+                      }}
+                    >
+                      <button className="mt-3 text-sm text-red-500 hover:text-red-700" type="submit">
+                        Remove
+                      </button>
+                    </form>
                   </div>
                 </div>
               );
