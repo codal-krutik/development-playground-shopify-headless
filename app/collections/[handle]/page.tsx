@@ -1,3 +1,4 @@
+import { notFound } from "next/navigation";
 import { shopifyClient } from "../../lib/shopify/client";
 import { getCollectionByHandleQuery } from "../../lib/shopify/queries/collection";
 import Image from "next/image";
@@ -36,6 +37,10 @@ export default async function Page({
   const data = await shopifyClient.request(getCollectionByHandleQuery, variables);
 
   const collection = data.collection;
+  if (!collection) {
+    notFound();
+  }
+
   const products = collection.products.edges;
   const pageInfo = collection.products.pageInfo;
 

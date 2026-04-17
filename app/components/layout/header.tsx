@@ -33,6 +33,12 @@ export default async function Header() {
             </Link>
           ))}
         </div>
+
+        <div className="hidden md:flex gap-6">
+          <Link href="/cart" className="text-gray-700 hover:text-black">
+            Cart
+          </Link>
+        </div>
       </div>
     </nav>
   );

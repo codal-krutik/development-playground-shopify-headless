@@ -48,7 +48,7 @@ export default async function Page({
         <div>
           <div className="aspect-square overflow-hidden rounded-xl bg-gray-50">
             <Image
-              src={selectedVariant?.image?.url || product.featuredImage?.url || "/placeholder.jpg"}
+              src={selectedVariant?.image?.url || product.featuredImage?.url || "/card-placeholder.jpg"}
               alt={product.title}
               width={600}
               height={600}
