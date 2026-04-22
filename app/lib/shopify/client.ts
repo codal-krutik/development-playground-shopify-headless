@@ -12,3 +12,17 @@ export const shopifyClient = new GraphQLClient(url, {
     "X-Shopify-Storefront-Access-Token": shopifyStorefrontAccessToken,
   },
 });
+
+const adminUrl = `https://${process.env.SHOPIFY_STORE_DOMAIN}/admin/api/${process.env.SHOPIFY_STOREFRONT_API_VERSION}/graphql.json`;
+
+const shopifyAccessToken = process.env.SHOPIFY_ACCESS_TOKEN;
+if (!shopifyAccessToken) {
+  throw new Error("SHOPIFY_ACCESS_TOKEN is missing");
+}
+
+export const shopifyAdminClient = new GraphQLClient(adminUrl, {
+  headers: {
+    "Content-Type": "application/json",
+    "X-Shopify-Access-Token": shopifyAccessToken,
+  },
+});
